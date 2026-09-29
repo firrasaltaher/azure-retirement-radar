@@ -1,0 +1,771 @@
+{
+  "schemaVersion": 1,
+  "title": "Azure Retirement Radar",
+  "reviewedOn": "2026-09-29",
+  "entries": [
+    {
+      "id": "R01",
+      "title": "Microsoft Entra Connect Sync minimum version",
+      "family": "Identity",
+      "date": "2026-09-30",
+      "kind": "Mandatory minimum-version upgrade",
+      "consequence": "Connect Sync installations below version 2.5.79.0 will stop synchronizing when the minimum-version requirement takes effect.",
+      "action": "Upgrade to the latest supported Connect Sync release and validate synchronization, connector health, and recovery procedures. Do not treat installation of the minimum version alone as a durable fix.",
+      "discovery": "Check installed Connect Sync versions on synchronization and staging servers. Azure resource inventory alone does not establish the installed agent version.",
+      "assistanceId": "assist-unified-scoped",
+      "sourceIds": ["src-entra-versions"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "Version 2.5.79.0 itself reaches its support expiry on October 23, 2026. This entry concerns the September minimum-version enforcement, not retirement of Microsoft Entra ID."
+    },
+    {
+      "id": "R02",
+      "title": "Azure Functions v3 on Linux Consumption",
+      "family": "Application platforms",
+      "date": "2026-09-30",
+      "kind": "Execution shutdown cutoff",
+      "consequence": "Functions v3 applications on the Linux Consumption plan stop running after the cutoff.",
+      "action": "Migrate affected applications to Functions v4 with supported language runtimes. Validate triggers, bindings, dependencies, deployment settings, and production behavior before switching traffic.",
+      "discovery": "Inspect function app operating system, hosting plan, FUNCTIONS_EXTENSION_VERSION, language runtime, and deployment configuration. Do not infer the Functions runtime from the application language version alone.",
+      "assistanceId": "assist-specialist",
+      "sourceIds": ["src-functions-versions"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "This shutdown scope is Functions v3 on Linux Consumption; it is not a blanket shutdown of every older Functions application or every Consumption plan."
+    },
+    {
+      "id": "R03",
+      "title": "Azure Virtual Desktop classic",
+      "family": "Desktop virtualization",
+      "date": "2026-09-30",
+      "kind": "Classic service retirement",
+      "consequence": "The classic Azure Virtual Desktop service reaches retirement. Classic deployments must not be treated as equivalent to supported modern Azure Virtual Desktop resources.",
+      "action": "Migrate classic tenants and host pools to the current Azure Virtual Desktop service. Validate user assignments, profiles, application availability, networking, and client access.",
+      "discovery": "Check for classic tenant and host-pool administration and classic deployment tooling. An inventory of current Azure Resource Manager host pools alone can miss classic deployments.",
+      "assistanceId": "assist-factory-platform",
+      "sourceIds": ["src-avd-classic"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "Modern Azure Virtual Desktop is not retiring under this notice. Obtain a scoped migration plan rather than assuming an automatic conversion."
+    },
+    {
+      "id": "R04",
+      "title": "VPN Gateway VpnGw1–VpnGw5 non-AZ SKUs",
+      "family": "Networking",
+      "date": "2026-09-30",
+      "kind": "Gateway SKU retirement",
+      "consequence": "The non-AZ VpnGw1 through VpnGw5 SKU family reaches its announced retirement date and requires migration to supported AZ SKUs.",
+      "action": "Use the current documented manual migration guidance to move affected gateways to appropriate AZ SKUs. Plan and test connectivity, gateway addressing, capacity, and any required maintenance window.",
+      "discovery": "Inspect virtual network gateway SKU names and gateway type. Separate the retiring non-AZ VpnGw1–VpnGw5 family from AZ SKUs and Basic VPN Gateway.",
+      "assistanceId": "assist-factory-platform",
+      "sourceIds": ["src-vpn-consolidation", "src-update-vpn"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "Basic VPN Gateway is not retiring under this notice. Do not assume an automated migration option is available; the reviewed guidance calls for manual migration."
+    },
+    {
+      "id": "R05",
+      "title": "Container insights ContainerLog schema",
+      "family": "Monitoring",
+      "date": "2026-09-30",
+      "kind": "Legacy log ingestion cutoff",
+      "consequence": "The legacy ContainerLog table stops receiving new container log data. Queries and alerts that continue to depend on fresh ContainerLog records can lose visibility.",
+      "action": "Enable or confirm ContainerLogV2 collection and update KQL queries, alerts, workbooks, exports, and downstream consumers for the new schema. Validate ingestion and alert behavior.",
+      "discovery": "Review container insights collection settings and data collection rules, then search monitoring content for ContainerLog references. Existing historical records do not prove ongoing legacy ingestion.",
+      "assistanceId": "assist-unified-scoped",
+      "sourceIds": ["src-containerlog"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "This is an ingestion/schema transition, not a retirement of Log Analytics or Container insights. Historical data remains subject to configured retention."
+    },
+    {
+      "id": "R06",
+      "title": "Legacy Service Bus SDKs and SBMP",
+      "family": "Messaging",
+      "date": "2026-09-30",
+      "kind": "SDK support end and protocol retirement",
+      "consequence": "Support ends for the listed legacy Service Bus SDKs, while SBMP communication becomes unusable. SDK support retirement and protocol shutdown are different effects.",
+      "action": "Replace WindowsAzure.ServiceBus, Microsoft.Azure.ServiceBus, and com.microsoft.azure.servicebus dependencies in affected Service Bus applications with current Azure SDKs using AMQP. Test authentication, retries, settlement, transactions, and message handling.",
+      "discovery": "Inspect package manifests, dependency locks, deployed binaries, and transport configuration across producers, consumers, jobs, and third-party connectors. Namespace inventory alone cannot identify client SDKs or protocols.",
+      "assistanceId": "assist-specialist",
+      "sourceIds": ["src-update-servicebus"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "This is not a blanket AMQP shutdown. The notice includes a WCF Relay exception; assess WCF Relay use separately rather than indiscriminately replacing every WindowsAzure.ServiceBus dependency."
+    },
+    {
+      "id": "R07",
+      "title": "Azure API for FHIR",
+      "family": "Healthcare data",
+      "date": "2026-09-30",
+      "kind": "Service retirement",
+      "consequence": "Azure API for FHIR reaches retirement. Existing applications need a supported FHIR destination rather than continued reliance on the retired service.",
+      "action": "Migrate to the FHIR service in Azure Health Data Services using an appropriate migration strategy. Validate data completeness, identities, permissions, integrations, search behavior, and cutover recovery.",
+      "discovery": "Inventory Azure API for FHIR resources and application endpoint configuration. Distinguish the retiring standalone API from FHIR services already hosted in Azure Health Data Services.",
+      "assistanceId": "assist-specialist",
+      "sourceIds": ["src-fhir-migration"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "Migration is a data and application integration project, not merely a resource rename. The report makes no claim that a particular tenant contains healthcare data."
+    },
+    {
+      "id": "R08",
+      "title": "Azure SQL Database Fsv2 hardware",
+      "family": "Databases",
+      "date": "2026-10-01",
+      "kind": "Hardware retirement and migration",
+      "consequence": "Fsv2 hardware reaches its announced retirement date; remaining affected databases are scheduled for automatic migration under the retirement plan.",
+      "action": "Choose and validate an appropriate General Purpose standard-series Gen5 or Hyperscale premium-series configuration. Review performance, compatibility, capacity, and cost before relying on a scheduled automatic move.",
+      "discovery": "Inspect Azure SQL Database and elastic-pool hardware-family and service-tier settings. Review resource-specific notifications for the migration schedule and target.",
+      "assistanceId": "assist-unified-scoped",
+      "sourceIds": ["src-update-sql-fsv2"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "The date is the published retirement milestone, not proof that all affected resources move simultaneously. SQL VM-to-Managed Instance assistance is not automatically applicable to an Azure SQL Database hardware change."
+    },
+    {
+      "id": "R09",
+      "title": "Azure Databricks Standard tier",
+      "family": "Analytics",
+      "date": "2026-10-01",
+      "kind": "Automatic tier upgrades begin",
+      "consequence": "Automatic upgrades of Standard-tier workspaces to Premium begin, creating a pricing and governance change that requires review.",
+      "action": "Review affected workspaces, Premium pricing, budgets, policies, and operational dependencies. Plan any proactive tier transition and verify the final workspace configuration.",
+      "discovery": "Inventory Databricks workspace pricing tiers and review retirement notifications and planned upgrade windows. Do not infer a workspace's final upgrade time from the start date alone.",
+      "assistanceId": "assist-specialist",
+      "sourceIds": ["src-update-databricks"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "October 1 marks the start of automatic upgrades, not a promise that every Standard workspace shuts down or changes on that exact day."
+    },
+    {
+      "id": "R10",
+      "title": "Azure AI Anomaly Detector",
+      "family": "AI services",
+      "date": "2026-10-01",
+      "kind": "Service retirement",
+      "consequence": "Anomaly Detector reaches service retirement; applications must move away from its endpoints.",
+      "action": "Evaluate suitable Microsoft Fabric capabilities or open-source alternatives. Rebuild and validate detection pipelines, model quality, operating thresholds, monitoring, and integration behavior.",
+      "discovery": "Inventory Anomaly Detector resources and search application configuration, pipelines, and secrets references for its endpoints. Validate actual call paths rather than relying only on resource presence.",
+      "assistanceId": "assist-specialist",
+      "sourceIds": ["src-anomaly-detector"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "The alternatives are evaluation routes, not guaranteed drop-in replacements or equivalent model behavior."
+    },
+    {
+      "id": "R11",
+      "title": "General-purpose v1 and legacy BlobStorage accounts",
+      "family": "Storage",
+      "date": "2026-10-13",
+      "kind": "Account-type retirement and automatic conversion",
+      "consequence": "Remaining affected general-purpose v1 and legacy BlobStorage accounts are subject to in-place conversion to general-purpose v2. The conversion is permanent and can change transaction costs.",
+      "action": "Review the documented conversion scope, workload transaction mix, access tiers, and projected pricing. Upgrade deliberately where appropriate and verify account settings and application behavior after conversion.",
+      "discovery": "Inventory storage account kind values and distinguish Storage and legacy BlobStorage from StorageV2 and other account types. Review resource-specific conversion notices.",
+      "assistanceId": "assist-factory-platform",
+      "sourceIds": ["src-storage-migration", "src-update-storage"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "This is not a retirement of Azure Blob Storage as a service. An in-place conversion does not eliminate the need for a transaction-pricing review."
+    },
+    {
+      "id": "R12",
+      "title": "Windows Server 2012 and 2012 R2 ESU",
+      "family": "Windows Server",
+      "date": "2026-10-13",
+      "kind": "Extended Security Updates end",
+      "consequence": "The Extended Security Updates period ends for Windows Server 2012 and 2012 R2. Continued operation is not equivalent to a supported, security-updated operating system.",
+      "action": "Upgrade or migrate workloads to a supported Windows Server release and validate application compatibility, backup, recovery, and licensing. Confirm any exceptional entitlement independently.",
+      "discovery": "Use image inventory as a starting point, then verify the installed guest operating system and ESU status through supported management or assessment tooling.",
+      "assistanceId": "assist-unified-assessments",
+      "sourceIds": ["src-windows-esu"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "This is an update-entitlement milestone, not an Azure VM shutdown. Image metadata may not reflect an in-place guest upgrade."
+    },
+    {
+      "id": "R13",
+      "title": "AKS Azure Linux 2.0 node images",
+      "family": "Kubernetes",
+      "date": "2026-10-31",
+      "kind": "Node image removal",
+      "consequence": "Current AKS guidance says Azure Linux 2.0 node images are removed on this date, preventing affected node pools from scaling with those images. Support already ended in November 2025.",
+      "action": "Move workloads to node pools using a supported OS SKU and Kubernetes version. Validate workload compatibility, disruption budgets, capacity, and node-pool replacement before removing old pools.",
+      "discovery": "Inspect node-pool OS SKU, Kubernetes version, and node image version. Separate current OS support status from the later image-removal milestone.",
+      "assistanceId": "assist-factory-platform",
+      "sourceIds": ["src-aks-node-images", "src-update-azurelinux2"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "conflict",
+      "notes": "Current node-image guidance gives October 31, 2026, while an older Azure Update gives March 31, 2026. This catalog exposes the conflict and uses the current technical guidance for planning; do not regard the later image date as restored OS support."
+    },
+    {
+      "id": "R14",
+      "title": "Azure Functions .NET in-process model",
+      "family": "Application platforms",
+      "date": "2026-11-10",
+      "kind": "Programming-model support end",
+      "consequence": "Support ends for the .NET in-process execution model. This support milestone does not itself establish an immediate execution shutdown.",
+      "action": "Migrate function code to the isolated worker model on a supported .NET release. Update project structure, packages, bindings, startup and dependency injection, configuration, and tests as required.",
+      "discovery": "Inspect project files, Functions SDK and worker packages, FUNCTIONS_WORKER_RUNTIME, deployed runtime configuration, and source code. App inventory alone may not identify all required code changes.",
+      "assistanceId": "assist-specialist",
+      "sourceIds": ["src-functions-isolated", "src-functions-versions"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "Moving to isolated .NET 8 alone does not solve the separate .NET 8 support deadline on the same date. Code remediation is not automatically included in deployment-assistance programs."
+    },
+    {
+      "id": "R15",
+      "title": ".NET 8 and .NET 9 support in Azure Functions",
+      "family": "Application runtimes",
+      "date": "2026-11-10",
+      "kind": "Runtime support end",
+      "consequence": ".NET 8 and .NET 9 reach their listed support end dates. Runtime support end is distinct from an application shutdown.",
+      "action": "Move affected Functions applications to a supported .NET release and a supported execution model. Review dependencies, runtime configuration, hosting constraints, and regression tests.",
+      "discovery": "Inspect target frameworks, runtime stacks, application settings, and deployed artifacts. Include isolated-worker applications; migration away from in-process does not by itself resolve runtime lifecycle risk.",
+      "assistanceId": "assist-specialist",
+      "sourceIds": ["src-functions-versions", "src-functions-isolated"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "Both .NET 8 and .NET 9 are included. This report does not imply that isolated .NET 8 remains supported after November 10."
+    },
+    {
+      "id": "R16",
+      "title": "AKS managed NGINX application routing",
+      "family": "Kubernetes",
+      "date": "2026-11-30",
+      "kind": "Extended patch support end",
+      "consequence": "Extended patch support ends for the managed NGINX application-routing implementation, leaving affected ingress deployments without that extension.",
+      "action": "Evaluate a supported ingress or gateway path such as Gateway API, Application Gateway for Containers, or Istio where suitable. Test routing, TLS, authentication, annotations, policies, and observability before cutover.",
+      "discovery": "Inspect the AKS application-routing add-on, ingress classes, controllers, annotations, and exposure paths. Distinguish managed NGINX application routing from independently installed controllers.",
+      "assistanceId": "assist-specialist",
+      "sourceIds": ["src-aks-app-routing", "src-update-nginx"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "This is an extended patch-support endpoint, not a blanket retirement of AKS networking. Alternatives have different feature and migration requirements."
+    },
+    {
+      "id": "R17",
+      "title": "AKS Azure Linux OS Guard preview support",
+      "family": "Kubernetes",
+      "date": "2026-12-10",
+      "kind": "Preview support and new-pool cutoff",
+      "consequence": "Support, patches, and new node-pool creation end for the Azure Linux OS Guard preview. A separate image-removal milestone follows in March 2027.",
+      "action": "Plan migration to supported AzureContainerLinux node pools and validate application, security, and node configuration requirements. Complete the move before image removal creates additional operational failures.",
+      "discovery": "Inspect node-pool OS SKU and node image versions for Azure Linux OS Guard preview use. Record support and image-removal milestones separately.",
+      "assistanceId": "assist-factory-platform",
+      "sourceIds": ["src-aks-node-images", "src-update-osguard"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "This entry is the December support and new-pool milestone. R22 covers image removal on March 10, 2027; the two records are not interchangeable deadlines."
+    },
+    {
+      "id": "R18",
+      "title": "App Service PHP 8.2",
+      "family": "Application runtimes",
+      "date": "2026-12-31",
+      "kind": "Runtime support end",
+      "consequence": "PHP 8.2 reaches its listed runtime support endpoint for App Service. Existing execution should not be confused with continued supported-runtime coverage.",
+      "action": "Select a supported PHP runtime offered for the hosting configuration, update application dependencies, and validate compatibility and deployment behavior before changing production.",
+      "discovery": "Inspect App Service runtime configuration, including Linux stack values, and review container images separately. A custom container's PHP version may not be represented by the platform runtime setting.",
+      "assistanceId": "assist-specialist",
+      "sourceIds": ["src-advisor-retirements", "src-appservice-language-policy"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "The date is a runtime support milestone, not a documented blanket shutdown of App Service sites. Recheck the current supported-runtime list when choosing the target."
+    },
+    {
+      "id": "R19",
+      "title": "Windows Server 2016 extended support",
+      "family": "Windows Server",
+      "date": "2027-01-12",
+      "kind": "Extended support end",
+      "consequence": "Windows Server 2016 reaches the end of extended support. VMs do not automatically shut down because the operating system reaches this lifecycle milestone.",
+      "action": "Plan a supported OS upgrade or workload migration and validate application compatibility, recovery, and licensing. Confirm any ESU eligibility, availability, and terms rather than assuming coverage.",
+      "discovery": "Identify candidate Windows VMs from image metadata, then verify the current guest OS and application estate with supported inventory and assessment methods.",
+      "assistanceId": "assist-unified-assessments",
+      "sourceIds": ["src-windows-release-info"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "This is an operating-system lifecycle event, not retirement of Azure Virtual Machines. The image originally used to create a VM is not authoritative evidence of its current OS."
+    },
+    {
+      "id": "R20",
+      "title": "Azure OpenAI GPT-5 model versions dated 2025-08-07",
+      "family": "AI services",
+      "date": "2027-02-09",
+      "kind": "Model-version retirement",
+      "consequence": "The retirement schedule lists gpt-5, gpt-5-mini, and gpt-5-nano version 2025-08-07 for retirement on this date. Applications using those versions need a supported deployment path.",
+      "action": "Inspect each deployment's model version, deployment type, and upgrade policy. Evaluate a supported successor available for the required region and capacity, test behavior and cost, and plan manual migration for provisioned deployments.",
+      "discovery": "Inventory Azure OpenAI deployment model names and versions, deployment types, and upgrade settings; trace application routing to the affected deployments.",
+      "assistanceId": "assist-specialist",
+      "sourceIds": ["src-openai-schedule", "src-openai-retirements"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "The reviewed schedule did not name a replacement for these versions. Do not invent one or assume provisioned deployments migrate automatically. Recheck the live schedule before committing a migration plan."
+    },
+    {
+      "id": "R21",
+      "title": "Key Vault control-plane APIs before 2026-02-01",
+      "family": "Security and management",
+      "date": "2027-02-27",
+      "kind": "Management API-version retirement",
+      "consequence": "Key Vault control-plane API versions earlier than 2026-02-01 reach retirement, affecting management operations that continue to request those versions.",
+      "action": "Update management SDKs, infrastructure-as-code definitions, deployment tools, and direct REST calls to a supported API version. Test create, update, read, deployment, and access-policy behavior.",
+      "discovery": "Search templates, generated deployments, SDK versions, automation, and REST API-version parameters. Resource inventory alone does not reveal every client-side API version.",
+      "assistanceId": "assist-specialist",
+      "sourceIds": ["src-keyvault-api"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "This is not retirement of vaults or the Key Vault data plane, and it is not a blanket forced conversion to RBAC. Validate authorization behavior independently when changing tooling."
+    },
+    {
+      "id": "R22",
+      "title": "AKS Azure Linux OS Guard preview image removal",
+      "family": "Kubernetes",
+      "date": "2027-03-10",
+      "kind": "Node image removal",
+      "consequence": "Removal of the OS Guard preview images causes affected node-pool scaling, reimaging, and redeployment operations to fail.",
+      "action": "Complete migration to supported AzureContainerLinux node pools before image removal. Validate replacement capacity, workload scheduling, disruption budgets, and recovery procedures.",
+      "discovery": "Inspect node-pool OS SKU and image versions, including pools that are temporarily scaled down or reserved for recovery. Confirm no operational workflow still requires preview images.",
+      "assistanceId": "assist-factory-platform",
+      "sourceIds": ["src-aks-node-images", "src-update-osguard"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "Support, patches, and new-pool creation end earlier on December 10, 2026, as recorded in R17. Waiting until image removal leaves an intervening unsupported period."
+    },
+    {
+      "id": "R23",
+      "title": "Azure AI Content Moderator",
+      "family": "AI services",
+      "date": "2027-03-15",
+      "kind": "Service retirement with conflicting catalog date",
+      "consequence": "Current service guidance and the Azure Update identify March 15 as the retirement date, while another official catalog lists March 31.",
+      "action": "Use March 15 as the conservative planning deadline and validate the current service notice. Evaluate a supported moderation solution, including Azure AI Content Safety where suitable, and test coverage, policy behavior, and application integration.",
+      "discovery": "Inventory Content Moderator resources and trace moderation API calls, application configuration, and review workflows. Do not assume another moderation service offers an identical API or feature set.",
+      "assistanceId": "assist-specialist",
+      "sourceIds": ["src-content-moderator", "src-update-content-moderator", "src-lifecycle-2027", "src-advisor-retirements"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "conflict",
+      "notes": "The conflicting official dates remain visible in the conflict register. March 31 must not be presented as a safe extension beyond the current March 15 service notice."
+    },
+    {
+      "id": "R24",
+      "title": "AKS Ubuntu 20.04 node images",
+      "family": "Kubernetes",
+      "date": "2027-03-17",
+      "kind": "Node image removal",
+      "consequence": "AKS removes Ubuntu 20.04 node images, blocking affected node pools from scaling with those images.",
+      "action": "Move to supported Ubuntu node images using a supported AKS upgrade path. Current node-image guidance recommends Kubernetes 1.35 or later; verify version availability and workload compatibility before upgrading.",
+      "discovery": "Inspect node-pool Kubernetes versions, OS SKU, and actual node image versions. A generic Ubuntu OS SKU alone does not establish the Ubuntu release.",
+      "assistanceId": "assist-factory-platform",
+      "sourceIds": ["src-aks-node-images", "src-update-ubuntu"],
+      "reviewedOn": "2026-09-29",
+      "confidence": "official",
+      "notes": "This is an AKS node-image availability milestone, not a blanket retirement of all Ubuntu virtual machines. Plan node replacement and scaling tests rather than checking the control-plane version alone."
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "conflict-url-ping",
+      "title": "Application Insights URL ping tests: extended to 2028",
+      "summary": "Current availability guidance explicitly extends URL ping test retirement by 24 months to September 30, 2028, superseding the earlier September 2026 expectation.",
+      "treatment": "Exclude this item from the current September 2026–March 2027 deadline set. Keep existing migration planning under review without describing September 2026 as an active cutoff.",
+      "sourceIds": ["src-appinsights-availability"]
+    },
+    {
+      "id": "conflict-aks-windows2022",
+      "title": "AKS Windows Server 2022: later support and image dates",
+      "summary": "Current AKS guidance gives June 30, 2028 for support end and June 30, 2029 for image removal, rather than the older March 15, 2027 date.",
+      "treatment": "Exclude the older March 2027 date from active entries. Track support end and image removal as separate future milestones and recheck current AKS guidance before planning.",
+      "sourceIds": ["src-aks-windows-upgrade"]
+    },
+    {
+      "id": "conflict-azurelinux2",
+      "title": "Azure Linux 2.0: current node guidance differs from older Update",
+      "summary": "The current AKS node-image page lists October 31, 2026 for image removal; older Azure Update 500645 lists March 31, 2026. OS support ended in November 2025 regardless of the later image date.",
+      "treatment": "Show R13 with conflict confidence and the current technical-guide date. Prioritize migration now; do not interpret the image-date difference as an extension of OS support.",
+      "sourceIds": ["src-aks-node-images", "src-update-azurelinux2"]
+    },
+    {
+      "id": "conflict-fxt",
+      "title": "Azure FXT Edge Filer: urgent unresolved official date discrepancy",
+      "summary": "The Azure Update and Advisor catalog give December 31, 2026, while the 2026 annual lifecycle listing gives September 30, 2026.",
+      "treatment": "Do not publish either date as reconciled. Keep this outside the dated active entries and urgently confirm the applicable service notice and migration path. Until resolved, plan conservatively against September 30 rather than assuming December provides a grace period.",
+      "sourceIds": ["src-update-fxt", "src-advisor-retirements", "src-lifecycle-2026"]
+    },
+    {
+      "id": "conflict-waf-config",
+      "title": "Application Gateway WAF v2 legacy configuration: March 15 versus March 31",
+      "summary": "Service guidance gives March 15, 2027 for legacy WAF configuration retirement, whereas the Advisor catalog gives March 31, 2027. The affected object is legacy configuration, not the WAF v2 service.",
+      "treatment": "Keep the discrepancy outside the confirmed dated entries pending reconciliation. Use March 15 as the conservative planning deadline and migrate applicable legacy configuration to a WAF policy using current service guidance.",
+      "sourceIds": ["src-waf-policy-upgrade", "src-advisor-retirements"]
+    },
+    {
+      "id": "conflict-content-moderator",
+      "title": "Content Moderator: earlier service date takes planning precedence",
+      "summary": "The Content Moderator service page and retirement Update agree on March 15, 2027, while an official catalog gives March 31, 2027.",
+      "treatment": "Retain R23 with conflict confidence and March 15 as the conservative deadline. Surface both dates and request reconciliation rather than silently adopting the later catalog date.",
+      "sourceIds": ["src-content-moderator", "src-update-content-moderator", "src-lifecycle-2027", "src-advisor-retirements"]
+    }
+  ],
+  "backlog": [
+    {
+      "id": "backlog-sql2016",
+      "title": "SQL Server 2016 extended support",
+      "date": "2026-07-14",
+      "summary": "Extended support has already ended. Identify remaining installations, confirm licensing and any ESU entitlement, and plan a supported upgrade or migration. Assess SQL VM-to-Azure SQL Managed Instance assistance only where the workload and program fit are confirmed; do not assume free ESU coverage.",
+      "sourceIds": ["src-partner-april"]
+    },
+    {
+      "id": "backlog-functions1",
+      "title": "Azure Functions runtime 1.x",
+      "date": "2026-09-14",
+      "summary": "The Functions 1.x support deadline has passed. Validate any remaining applications and migrate to Functions v4 with supported language runtimes. Support end is not evidence of a universal execution shutdown.",
+      "sourceIds": ["src-functions-versions"]
+    },
+    {
+      "id": "backlog-data-collector",
+      "title": "Azure Monitor HTTP Data Collector API",
+      "date": "2026-09-14",
+      "summary": "The legacy API's support deadline has passed. TLS-compliant ingestion can continue under the documented conditions; this is not a blanket ingestion-off date. Migrate producers to the supported Logs Ingestion API path and validate transformations, schema, authentication, and delivery.",
+      "sourceIds": ["src-custom-logs-migrate"]
+    },
+    {
+      "id": "backlog-personalizer",
+      "title": "Azure AI Personalizer",
+      "date": "2026-08-25",
+      "summary": "The published Personalizer retirement date has passed. Check for residual endpoint calls and dependent decisioning workflows, then replace or retire them using a separately validated design.",
+      "sourceIds": ["src-personalizer"]
+    },
+    {
+      "id": "backlog-metrics-advisor",
+      "title": "Azure AI Metrics Advisor",
+      "date": "2026-05-18",
+      "summary": "The published Metrics Advisor retirement date has passed. Identify remaining resources and dependent pipelines, confirm historical-data needs, and replace monitoring and anomaly-detection workflows with supported alternatives.",
+      "sourceIds": ["src-metrics-advisor"]
+    }
+  ],
+  "assistance": [
+    {
+      "id": "assist-factory-sqlmi",
+      "title": "Cloud Accelerate Factory: SQL VM-to-Managed Instance fit check",
+      "scope": "Explore deployment assistance for a qualifying SQL Server VM-to-Azure SQL Managed Instance migration, including SQL Server 2016 remediation where the target and workload are suitable.",
+      "boundary": "Confirm program eligibility, workload compatibility, prerequisites, agreed scope, applicable contract or program terms, and delivery capacity. Published zero-cost deployment assistance is not a promise that every migration, license, ESU entitlement, application change, or Azure consumption charge is free. No retirement-specific end-to-end package is verified here.",
+      "sourceIds": ["src-partner-april", "src-frontier-accelerate", "src-factory-announcement"]
+    },
+    {
+      "id": "assist-factory-platform",
+      "title": "Cloud Accelerate Factory: infrastructure and application replatforming fit check",
+      "scope": "Explore eligible deployment and replatforming assistance through the published acceleration programs for selected infrastructure and application migration work.",
+      "boundary": "An entry mapped to this route is a candidate for assessment, not a verified supported engagement. Confirm technology fit, eligibility, prerequisites, program or contract terms, capacity, and an explicit delivery scope. Do not assume bespoke application remediation, .NET in-process code changes, every named retirement, or consumption costs are covered. No blanket free service or retirement-specific end-to-end package is established.",
+      "sourceIds": ["src-frontier-accelerate", "src-factory-announcement"]
+    },
+    {
+      "id": "assist-unified-assessments",
+      "title": "Unified On-Demand Assessments: Windows Server and SQL Server",
+      "scope": "Use available Windows Server and SQL Server On-Demand Assessments to inform discovery, health review, and remediation prioritization where the organization's support agreement and environment qualify.",
+      "boundary": "Confirm assessment availability, entitlement, setup permissions, collection requirements, contract terms, and support capacity. An assessment is not an automatic migration execution service, complete retirement inventory, or guarantee that every dependency has been found. No retirement-specific end-to-end package is verified.",
+      "sourceIds": ["src-unified-assessments", "src-unified-plan"]
+    },
+    {
+      "id": "assist-unified-scoped",
+      "title": "Unified: scoped guidance and optional Value Acceleration Services",
+      "scope": "Discuss retirement discovery, architecture review, migration planning, validation, and available optional Value Acceleration Services within the applicable Unified support arrangement.",
+      "boundary": "Confirm entitlement, purchased options, contract terms, technical fit, deliverables, and delivery capacity before scheduling work. Optional services are not automatically included, and support guidance does not imply ownership of an end-to-end production migration. No retirement-specific execution package is verified by these sources.",
+      "sourceIds": ["src-unified-plan"]
+    },
+    {
+      "id": "assist-specialist",
+      "title": "Specialist application, data, AI, and partner delivery route",
+      "scope": "Use the published acceleration and partner routes to identify suitable expertise for code changes, SDK replacement, runtime migration, data migration, model evaluation, and specialized application redesign.",
+      "boundary": "Confirm the selected provider's capabilities, eligibility for any program support, contractual scope, cost, security responsibilities, and capacity. Factory placement is not automatic for .NET in-process or other code remediation. No verified retirement-specific end-to-end package or blanket no-cost delivery commitment is claimed.",
+      "sourceIds": ["src-frontier-accelerate", "src-factory-announcement"]
+    }
+  ],
+  "queries": [
+    {
+      "id": "query-advisor",
+      "title": "Advisor service-upgrade and retirement recommendations",
+      "description": "Run in Azure Resource Graph to find indexed Advisor recommendations in the dedicated retirement subcategory. Dates and features are recommendation metadata to reconcile with current service notices, not a complete tenant-impact assessment. This query has not been executed against a tenant.",
+      "kql": "advisorresources\n| where type =~ \"microsoft.advisor/recommendations\"\n| where properties.category == \"HighAvailability\"\n| where properties.extendedProperties.recommendationSubCategory == \"ServiceUpgradeAndRetirement\"\n| project id, subscriptionId, retirementDate=todatetime(properties.extendedProperties.retirementDate), feature=tostring(properties.extendedProperties.retirementFeatureName), resourceId=tostring(properties.resourceMetadata.resourceId), status=tostring(properties.recommendationStatus), completionType=tostring(properties.completionType)",
+      "limitations": "Visibility depends on permissions, subscription scope, service coverage, and indexing freshness; some projected values can be absent. No matches does not mean no impact. Retrieve every results page, including beyond the first 1,000 rows. Advisor recommendations and workbook completion signals do not inventory every SDK, protocol, guest OS, or application dependency; verify actual remediation separately.",
+      "sourceIds": ["src-advisor-retirements", "src-advisor-arg", "src-advisor-workbook"]
+    },
+    {
+      "id": "query-service-health",
+      "title": "Service Health retirement advisories",
+      "description": "Run in Azure Resource Graph to inspect indexed retirement advisories. The returned impact timestamps are raw event fields, not contractual retirement deadlines; use the advisory and current service documentation to interpret them. This query has not been executed against a tenant.",
+      "kql": "ServiceHealthResources\n| where type =~ \"microsoft.resourcehealth/events\"\n| where properties.EventType == \"HealthAdvisory\"\n| where properties.EventSubType == \"Retirement\"\n| project id, subscriptionId, trackingId=tostring(properties.TrackingId), title=tostring(properties.Title), impactStartTime=properties.ImpactStartTime, impactMitigationTime=properties.ImpactMitigationTime",
+      "limitations": "Service Health access, subscription selection, event availability, retention, and indexing can limit results. No matches does not mean no impact. Retrieve all pages beyond the first 1,000 rows where applicable. An event record is not a complete impacted-resource inventory, and its impact timestamps must not be relabeled as a guaranteed deadline. Review the advisory's impacted-resource detail and validate application dependencies.",
+      "sourceIds": ["src-servicehealth-arg", "src-servicehealth-impacted"]
+    },
+    {
+      "id": "query-windows-vms",
+      "title": "Windows VM source-image inventory",
+      "description": "Run in Azure Resource Graph to identify Windows VM image metadata for follow-up guest-OS validation. This is a candidate inventory, not evidence of current Windows Server versions or retirement exposure. This query has not been executed against a tenant.",
+      "kql": "Resources\n| where type =~ \"microsoft.compute/virtualmachines\"\n| where properties.storageProfile.osDisk.osType =~ \"Windows\"\n| project id, subscriptionId, resourceGroup, name, location, publisher=tostring(properties.storageProfile.imageReference.publisher), offer=tostring(properties.storageProfile.imageReference.offer), sku=tostring(properties.storageProfile.imageReference.sku), version=tostring(properties.storageProfile.imageReference.version), imageReferenceId=tostring(properties.storageProfile.imageReference.id)",
+      "limitations": "Marketplace image metadata describes the source image, not necessarily the current guest OS after an in-place upgrade. Custom or specialized images can lack publisher, offer, SKU, or version fields. This query does not cover every scale set, Arc machine, on-premises host, or installed SQL instance. Permissions, scope, and index freshness affect results; no matches does not mean no impact. Retrieve every results page, including beyond 1,000 rows, and verify installed OS versions separately.",
+      "sourceIds": ["src-arg-explore"]
+    },
+    {
+      "id": "query-appservice-stacks",
+      "title": "App Service indexed runtime configuration",
+      "description": "Run in Azure Resource Graph to inspect indexed web configuration for App Service sites. Use the stack fields as discovery hints for PHP and .NET review; they do not determine every application's actual runtime or Functions execution model. This query has not been executed against a tenant.",
+      "kql": "AppServiceResources\n| where type =~ \"microsoft.web/sites/config\"\n| where id endswith \"/config/web\"\n| project id, subscriptionId, resourceGroup, name, linuxFxVersion=tostring(properties.linuxFxVersion), windowsFxVersion=tostring(properties.windowsFxVersion), netFrameworkVersion=tostring(properties.netFrameworkVersion), phpVersion=tostring(properties.phpVersion), nodeVersion=tostring(properties.nodeVersion), pythonVersion=tostring(properties.pythonVersion), javaVersion=tostring(properties.javaVersion)",
+      "limitations": "Supported-table coverage, permissions, subscription scope, and indexing freshness affect availability; absent fields are not proof that a runtime is unused. This filter does not cover slot configuration resources. Custom-container runtimes, application packages, Functions worker settings, and client SDKs require separate inspection. No matches does not mean no impact. Retrieve all results pages beyond the first 1,000 rows where applicable and verify against deployed configuration and artifacts.",
+      "sourceIds": ["src-arg-supported-tables", "src-appservice-config-schema"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-entra-versions",
+      "url": "https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/reference-connect-version-history",
+      "title": "Microsoft Entra Connect: version release history"
+    },
+    {
+      "id": "src-functions-versions",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-versions",
+      "title": "Azure Functions runtime versions and support"
+    },
+    {
+      "id": "src-avd-classic",
+      "url": "https://learn.microsoft.com/en-us/previous-versions/azure/virtual-desktop-classic/classic-retirement",
+      "title": "Azure Virtual Desktop classic retirement"
+    },
+    {
+      "id": "src-vpn-consolidation",
+      "url": "https://learn.microsoft.com/en-us/azure/vpn-gateway/gateway-sku-consolidation",
+      "title": "VPN Gateway SKU consolidation guidance"
+    },
+    {
+      "id": "src-update-vpn",
+      "url": "https://www.microsoft.com/releasecommunications/api/v2/azure?$filter=id%20eq%20'vpngw1-5-non-az-skus-will-be-retired-on-30-september-2026'&$select=id,title,description,modified",
+      "title": "Azure Update: VpnGw1–5 non-AZ SKU retirement"
+    },
+    {
+      "id": "src-containerlog",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-logs-schema",
+      "title": "Container insights log schema and ContainerLogV2 migration"
+    },
+    {
+      "id": "src-update-servicebus",
+      "url": "https://www.microsoft.com/releasecommunications/api/v2/azure?$filter=id%20eq%20'retirement-notice-update-your-azure-service-bus-sdk-libraries-by-30-september-2026'&$select=id,title,description,modified",
+      "title": "Azure Update: Service Bus SDK and SBMP retirement"
+    },
+    {
+      "id": "src-fhir-migration",
+      "url": "https://learn.microsoft.com/en-us/azure/healthcare-apis/fhir/migration-strategies",
+      "title": "Azure API for FHIR migration strategies"
+    },
+    {
+      "id": "src-update-sql-fsv2",
+      "url": "https://www.microsoft.com/releasecommunications/api/v2/azure?$filter=id%20eq%20'485030'&$select=id,title,description,modified",
+      "title": "Azure Update 485030: Azure SQL Fsv2 hardware retirement"
+    },
+    {
+      "id": "src-update-databricks",
+      "url": "https://www.microsoft.com/releasecommunications/api/v2/azure?$filter=id%20eq%20'502623'&$select=id,title,description,modified",
+      "title": "Azure Update 502623: Databricks Standard tier retirement"
+    },
+    {
+      "id": "src-anomaly-detector",
+      "url": "https://learn.microsoft.com/en-us/azure/ai-services/anomaly-detector/overview",
+      "title": "Azure AI Anomaly Detector overview and retirement notice"
+    },
+    {
+      "id": "src-storage-migration",
+      "url": "https://learn.microsoft.com/en-us/azure/storage/common/general-purpose-version-1-account-migration-overview",
+      "title": "General-purpose v1 storage account migration overview"
+    },
+    {
+      "id": "src-update-storage",
+      "url": "https://www.microsoft.com/releasecommunications/api/v2/azure?$filter=id%20eq%20'496964'&$select=id,title,description,modified",
+      "title": "Azure Update 496964: legacy storage account conversion"
+    },
+    {
+      "id": "src-windows-esu",
+      "url": "https://learn.microsoft.com/en-us/windows-server/get-started/extended-security-updates-overview",
+      "title": "Windows Server Extended Security Updates overview"
+    },
+    {
+      "id": "src-aks-node-images",
+      "url": "https://learn.microsoft.com/en-us/azure/aks/node-images",
+      "title": "AKS node images, operating systems, and retirement milestones"
+    },
+    {
+      "id": "src-update-azurelinux2",
+      "url": "https://www.microsoft.com/releasecommunications/api/v2/azure?$filter=id%20eq%20'500645'&$select=id,title,description,modified",
+      "title": "Azure Update 500645: earlier Azure Linux 2.0 retirement notice"
+    },
+    {
+      "id": "src-functions-isolated",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-functions/migrate-dotnet-to-isolated-model",
+      "title": "Migrate .NET Azure Functions to the isolated worker model"
+    },
+    {
+      "id": "src-aks-app-routing",
+      "url": "https://learn.microsoft.com/en-us/azure/aks/app-routing",
+      "title": "AKS application routing and managed NGINX guidance"
+    },
+    {
+      "id": "src-update-nginx",
+      "url": "https://www.microsoft.com/releasecommunications/api/v2/azure?$filter=id%20eq%20'555839'&$select=id,title,description,modified",
+      "title": "Azure Update 555839: AKS managed NGINX support extension"
+    },
+    {
+      "id": "src-update-osguard",
+      "url": "https://www.microsoft.com/releasecommunications/api/v2/azure?$filter=id%20eq%20'571257'&$select=id,title,description,modified",
+      "title": "Azure Update 571257: Azure Linux OS Guard preview retirement"
+    },
+    {
+      "id": "src-advisor-retirements",
+      "url": "https://learn.microsoft.com/en-us/azure/advisor/advisor-how-to-use-service-upgrade-retirement-recommendations",
+      "title": "Advisor service-upgrade and retirement recommendations"
+    },
+    {
+      "id": "src-appservice-language-policy",
+      "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+      "title": "App Service language runtime support policy"
+    },
+    {
+      "id": "src-windows-release-info",
+      "url": "https://learn.microsoft.com/en-us/windows/release-health/windows-server-release-info",
+      "title": "Windows Server release information and lifecycle dates"
+    },
+    {
+      "id": "src-openai-schedule",
+      "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/model-retirement-schedule",
+      "title": "Azure OpenAI model retirement schedule"
+    },
+    {
+      "id": "src-openai-retirements",
+      "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/model-retirements",
+      "title": "Azure OpenAI model retirement and deployment upgrade behavior"
+    },
+    {
+      "id": "src-keyvault-api",
+      "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/migrate-api-version",
+      "title": "Migrate Key Vault control-plane API versions"
+    },
+    {
+      "id": "src-content-moderator",
+      "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-moderator/overview",
+      "title": "Azure AI Content Moderator overview and retirement notice"
+    },
+    {
+      "id": "src-update-content-moderator",
+      "url": "https://www.microsoft.com/releasecommunications/api/v2/azure?$filter=id%20eq%20'azure-content-moderator-retirement'&$select=id,title,description,modified",
+      "title": "Azure Update: Azure Content Moderator retirement"
+    },
+    {
+      "id": "src-update-ubuntu",
+      "url": "https://www.microsoft.com/releasecommunications/api/v2/azure?$filter=id%20eq%20'485795'&$select=id,title,description,modified",
+      "title": "Azure Update 485795: AKS Ubuntu 20.04 retirement"
+    },
+    {
+      "id": "src-appinsights-availability",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/app/availability",
+      "title": "Application Insights availability tests and URL ping extension"
+    },
+    {
+      "id": "src-aks-windows-upgrade",
+      "url": "https://learn.microsoft.com/en-us/azure/aks/upgrade-windows-os",
+      "title": "AKS Windows operating-system upgrade and lifecycle guidance"
+    },
+    {
+      "id": "src-update-fxt",
+      "url": "https://www.microsoft.com/releasecommunications/api/v2/azure?$filter=id%20eq%20'fxtretirement'&$select=id,title,description,modified",
+      "title": "Azure Update: Azure FXT Edge Filer retirement"
+    },
+    {
+      "id": "src-waf-policy-upgrade",
+      "url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/ag/upgrade-ag-waf-policy",
+      "title": "Upgrade legacy Application Gateway WAF configuration to WAF policy"
+    },
+    {
+      "id": "src-lifecycle-2026",
+      "url": "https://learn.microsoft.com/en-us/lifecycle/end-of-support/end-of-support-2026",
+      "title": "Microsoft lifecycle: products ending support in 2026"
+    },
+    {
+      "id": "src-lifecycle-2027",
+      "url": "https://learn.microsoft.com/en-us/lifecycle/end-of-support/end-of-support-2027",
+      "title": "Microsoft lifecycle: products ending support in 2027"
+    },
+    {
+      "id": "src-partner-april",
+      "url": "https://learn.microsoft.com/en-us/partner-center/announcements/2026-april",
+      "title": "Partner Center April 2026 announcements"
+    },
+    {
+      "id": "src-custom-logs-migrate",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/custom-logs-migrate",
+      "title": "Migrate Azure Monitor legacy custom-log ingestion"
+    },
+    {
+      "id": "src-personalizer",
+      "url": "https://learn.microsoft.com/en-us/previous-versions/azure/ai-services/personalizer/what-is-personalizer",
+      "title": "Azure AI Personalizer overview and retirement notice"
+    },
+    {
+      "id": "src-metrics-advisor",
+      "url": "https://learn.microsoft.com/en-us/previous-versions/azure/ai-services/metrics-advisor/overview",
+      "title": "Azure AI Metrics Advisor overview and retirement notice"
+    },
+    {
+      "id": "src-frontier-accelerate",
+      "url": "https://azure.microsoft.com/en-us/solutions/frontier-accelerate",
+      "title": "Microsoft Azure Frontier acceleration programs"
+    },
+    {
+      "id": "src-factory-announcement",
+      "url": "https://techcommunity.microsoft.com/blog/azuremigrationblog/introducing-cloud-accelerate-factory-unlock-zero-cost-deployment-assistance-for-/4409779",
+      "title": "Microsoft announcement: Cloud Accelerate Factory deployment assistance"
+    },
+    {
+      "id": "src-unified-assessments",
+      "url": "https://learn.microsoft.com/en-us/services-hub/unified/health/assessments-faq",
+      "title": "Unified On-Demand Assessments FAQ"
+    },
+    {
+      "id": "src-unified-plan",
+      "url": "https://www.microsoft.com/en-us/microsoft-unified/plan-details",
+      "title": "Microsoft Unified plan details and optional services"
+    },
+    {
+      "id": "src-advisor-arg",
+      "url": "https://learn.microsoft.com/en-us/azure/advisor/advisor-azure-resource-graph",
+      "title": "Query Azure Advisor recommendations with Azure Resource Graph"
+    },
+    {
+      "id": "src-servicehealth-arg",
+      "url": "https://learn.microsoft.com/en-us/azure/service-health/resource-graph-samples",
+      "title": "Azure Service Health Resource Graph query samples"
+    },
+    {
+      "id": "src-servicehealth-impacted",
+      "url": "https://learn.microsoft.com/en-us/azure/service-health/impacted-resources-retirements",
+      "title": "Service Health retirement impacted-resource guidance"
+    },
+    {
+      "id": "src-arg-explore",
+      "url": "https://learn.microsoft.com/en-us/azure/governance/resource-graph/concepts/explore-resources",
+      "title": "Explore Azure resources with Azure Resource Graph"
+    },
+    {
+      "id": "src-arg-supported-tables",
+      "url": "https://learn.microsoft.com/en-us/azure/governance/resource-graph/reference/supported-tables-resources",
+      "title": "Azure Resource Graph supported tables and resource types"
+    },
+    {
+      "id": "src-appservice-config-schema",
+      "url": "https://learn.microsoft.com/en-us/azure/templates/microsoft.web/sites/config-web",
+      "title": "Microsoft.Web sites web-configuration resource schema"
+    },
+    {
+      "id": "src-advisor-workbook",
+      "url": "https://learn.microsoft.com/en-us/azure/advisor/advisor-workbook-service-retirement",
+      "title": "Azure Advisor service-retirement workbook"
+    }
+  ]
+}

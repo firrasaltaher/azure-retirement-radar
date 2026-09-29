@@ -1,0 +1,106 @@
+AZURE RETIREMENT RADAR
+
+Purpose
+Weekly, customer-presentable public-source Azure retirement briefings with
+immutable dated HTML and data snapshots. This repository is private. GitHub
+Pages is not configured. No customer data, subscription IDs, internal Microsoft
+program documents, tenant credentials, or customer assignments belong here.
+
+Open a report
+Download the latest successful "Retirement reports" workflow artifact, extract
+the ZIP and open index.html. Each reports/<edition>/report.html also works as a
+standalone offline file. Browser Print can produce a PDF; review page breaks
+before handing it over. SharePoint/OneDrive HTML preview may restrict navigation
+or printing; downloading and opening the HTML locally avoids that dependency.
+Private repository URLs are not customer sharing links.
+
+Schedule
+GitHub Actions runs every Monday at 12:17 UTC (08:17 EDT / 07:17 EST).
+The first scheduled run after setup is October 5, 2026.
+The desktop and Scout need not be running. GitHub schedules are best effort,
+not exact-time guarantees. Check Actions before a customer meeting. GitHub
+usage limits, account policy, disabled workflows and source outages can prevent
+generation. No customer emails, Teams posts or automatic program nominations.
+
+What is automatic
+The weekly job scans every page of the official Azure Updates retirement-tag
+catalog, reads curated Microsoft source pages, records source fingerprints,
+compares against the prior edition, recalculates rolling three/six-month
+windows, and appends a new report. It commits snapshots to main and exposes a
+downloadable archive. The repository copies are permanent; workflow artifacts
+are convenience copies retained for 90 days.
+
+What requires review
+An HTTP success or unchanged source fingerprint is not semantic verification.
+New announcements use publisher-supplied retirement MONTH metadata and are
+explicitly queued for review, not promoted to exact dated milestones.
+Unknown-month notices remain visible. Month metadata can conflict with notice
+text. Verify effective dates, scope, migration steps and changed dates using
+the official full notice and current service documentation.
+
+The curated catalog records reviewedOn independently of source collection
+timestamps. Reads never silently advance reviewedOn. Reviews older than 31 days
+and changed/failed source reads are flagged. Published reports remain drafts
+for handoff until reviewed. This is selected coverage, not an Azure completeness
+guarantee. The public source list is not evidence of any customer's impact.
+
+Update the reviewed catalog
+Edit data/catalog.json through a reviewed commit or pull request. Use stable
+IDs for the same feature/version/milestone. Add source references, specific
+scope, consequence, migration, discovery method and an honest reviewedOn date.
+Prefer current service-specific documentation and explicitly retain conflicts.
+Treat correction of a retirement date differently from completing remediation.
+Do not remove overdue entries merely because the milestone has passed.
+
+Use assistance mappings as candidate routes only. Unified entitlement,
+Factory scope, program eligibility, region and capacity require confirmation.
+The public feed itself is not an exclusive Unified benefit; validated exposure,
+owner engagement, scoped technical delivery and evidence-backed closure are
+the proposed value measures.
+
+Commands (Node.js 24+, no npm dependencies)
+  npm test
+  npm run validate
+  npm run report -- --date 2026-09-29 --reason "Initial public-source baseline"
+  npm run verify
+  node src/cli.mjs index
+
+Corrections and retries
+Published reports/<edition> directories must never change. Same-day reruns fail
+rather than overwrite. To publish a correction, use the next sequential
+revision and an explanation, for example:
+  npm run report -- --date 2026-09-29 --revision 2 --reason "Corrected source scope"
+Revisions retain prior editions. All dates use America/New_York for the default
+report date, with UTC source collection timestamps.
+
+The generator checks SHA-256 hashes of archived HTML and JSON. CI rejects
+modification or deletion of prior edition files relative to the base commit.
+These are accidental-change safeguards, not tamper-proof retention or branch
+protection against repository administrators.
+
+Failures
+Failure to collect the paged discovery catalog fails the run without publishing
+a new edition. Individual source failures produce a visibly partial draft,
+retaining their errors and the original reviewed catalog. Never replace a
+failed retrieval with a success-shaped empty list. Review source coverage in
+the report and workflow summary.
+
+If publication reserves an edition directory but file moves fail, inspect the
+incomplete local directory before any retry. Do not treat it as published or
+repair a remotely committed edition by editing it. A completed edition followed
+by an index failure can be recovered with "node src/cli.mjs index"; do not
+regenerate or overwrite its report.
+
+Customer evidence
+Customer-run Advisor/Service Health/Resource Graph outputs remain in approved
+protected customer storage. The report contains discovery queries, not a
+connection to a customer tenant. Zero query results are not proof of no impact.
+Application SDKs, API versions and guest OS need supplementary owner evidence.
+Customer-specific overlays and internal scoping notes must not be embedded in
+the public-only report, even if hidden behind UI controls.
+
+Sharing
+Review the exact edition and intended recipients before sharing separately.
+No GitHub Pages site is published by this project. A private repository does
+not make an independently enabled Pages site private. If a portal is wanted
+later, design explicit authorization and an approved hosting boundary first.

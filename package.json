@@ -1,0 +1,14 @@
+{
+  "name": "azure-retirement-radar",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Public-source Azure retirement briefings with append-only HTML editions.",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "test": "node --test",
+    "validate": "node src/cli.mjs validate",
+    "report": "node src/cli.mjs report",
+    "verify": "node src/cli.mjs verify"
+  }
+}

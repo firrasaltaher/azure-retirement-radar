@@ -1,0 +1,8 @@
+* text=auto
+*.mjs text eol=lf
+*.json text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.yml text eol=lf
+# Archived checksums refer to exact bytes, including original line endings.
+reports/** -text
