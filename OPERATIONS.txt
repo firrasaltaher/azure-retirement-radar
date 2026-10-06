@@ -65,6 +65,11 @@ Commands (Node.js 24+, no npm dependencies)
   npm run verify
   node src/cli.mjs index
 
+Branch verification
+Run "Retirement reports" manually with the desired branch selected. It generates
+a report from that branch and uploads the downloadable archive without committing
+or pushing reports. Only runs on main persist new editions to main.
+
 Corrections and retries
 Published reports/<edition> directories must never change. Same-day reruns fail
 rather than overwrite. To publish a correction, use the next sequential
