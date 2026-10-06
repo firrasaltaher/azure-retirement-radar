@@ -12,6 +12,23 @@ test('collector reads all pages, with no RSS recency cutoff', async () => {
   assert.deepEqual(offsets, [0, 100, 200]);
   assert.equal(notices.length, 205);
 });
+test('each collection bypasses stale page caches with a fresh shared key', async () => {
+  const keys = [];
+  const read = async url => {
+    const params = new URL(url).searchParams;
+    const skip = Number(params.get('$skip'));
+    const key = params.get('_');
+    keys.push(key);
+    const count = key ? 101 : skip === 0 ? 101 : 102;
+    return JSON.stringify({ '@odata.count': count, value: Array.from({ length: Math.min(100, count - skip) }, (_, i) => row(skip + i)) });
+  };
+  assert.equal((await collectUpdates(read)).length, 101);
+  assert.equal((await collectUpdates(read)).length, 101);
+  assert.ok(keys.every(key => typeof key === 'string' && key.length > 0));
+  assert.equal(keys[0], keys[1]);
+  assert.equal(keys[2], keys[3]);
+  assert.notEqual(keys[0], keys[2]);
+});
 test('pagination count drift, duplicate IDs and incomplete pages fail closed', async () => {
   await assert.rejects(collectUpdates(async () => JSON.stringify({ '@odata.count': 0, value: [] })), /empty retirement catalog/);
   await assert.rejects(collectUpdates(async () => JSON.stringify({ '@odata.count': 5, value: [row(1)] })), /Incomplete/);

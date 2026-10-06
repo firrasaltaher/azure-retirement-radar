@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { hash, safeLink, semanticHash } from './model.mjs';
 
 export const UPDATES_API = 'https://www.microsoft.com/releasecommunications/api/v2/azure';
@@ -49,6 +50,7 @@ export function normalizeNotice(row) {
 }
 
 export async function collectUpdates(read = fetchText) {
+  const collectionKey = randomUUID();
   const notices = [];
   const seen = new Set();
   let expected;
@@ -60,6 +62,8 @@ export async function collectUpdates(read = fetchText) {
     url.searchParams.set('$top', '100');
     url.searchParams.set('$skip', String(skip));
     url.searchParams.set('$count', 'true');
+    // Avoid mixing independently cached pages from different catalog versions.
+    url.searchParams.set('_', collectionKey);
     const page = JSON.parse(await read(url.href));
     if (!Array.isArray(page.value) || !Number.isInteger(page['@odata.count'])) throw new Error('Azure Updates pagination/count schema changed');
     if (page['@odata.count'] <= 0) throw new Error('Azure Updates unexpectedly returned an empty retirement catalog');
